@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoForge AI · Autonomous E-Waste Triage & Campus Circular Hardware Forge</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b',
+              950: '#022c22'
+            },
+            cyanAccent: {
+              400: '#22d3ee',
+              500: '#06b6d4'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .glass-card {
+      background: rgba(13, 19, 33, 0.78);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(8, 12, 22, 0.8);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(52, 211, 153, 0.25);
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(52, 211, 153, 0.5);
+    }
+  </style>
+</head>
+<body class="bg-[#050811] text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-black">
+
+  <!-- ================= TOP CONTEXT BANNER ================= -->
+  <div class="bg-gradient-to-r from-emerald-950 via-[#0a0f1d] to-emerald-950 border-b border-emerald-900/40 text-xs py-2 px-4 text-center text-slate-300 flex flex-wrap items-center justify-center gap-2">
+    <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-brand-500/20 text-brand-400 border border-brand-500/30">1M1B × IBM SkillsBuild</span>
+    <span>AI for Sustainability Virtual Internship · <strong>UN SDG 12: Responsible Consumption & Production</strong></span>
+    <span class="text-slate-600 hidden md:inline">•</span>
+    <span class="text-slate-400 font-mono text-[11px]">Aisha Ifrah (VIT Bhopal, Kothri Kalan)</span>
+  </div>
+
+  <!-- ================= STICKY HEADER ================= -->
+  <header class="sticky top-0 z-50 bg-[#050811]/90 backdrop-blur-xl border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-cyanAccent-400 flex items-center justify-center text-black font-extrabold shadow-lg shadow-brand-500/20 text-lg">
+          ⚡
+        </div>
+        <div>
+          <span class="text-lg font-extrabold tracking-tight text-white flex items-center gap-1.5">
+            EcoForge <span class="text-brand-400 font-mono text-xs px-1.5 py-0.5 rounded bg-brand-500/10 border border-brand-500/20">AI</span>
+          </span>
+          <span class="text-[10px] text-slate-400 font-mono block -mt-1 uppercase tracking-wider">Campus Hardware Circular Foundry</span>
+        </div>
+      </div>
+
+      <nav class="hidden md:flex items-center gap-6 text-xs font-medium text-slate-300">
+        <a href="#triage-studio" class="hover:text-brand-400 transition-colors">Triage Studio</a>
+        <a href="#terminal-trace" class="hover:text-cyanAccent-400 transition-colors">Agent Terminal Trace</a>
+        <a href="#multi-agent" class="hover:text-brand-400 transition-colors">Agent Pipeline</a>
+        <a href="#contrast-section" class="hover:text-brand-400 transition-colors">Why It Stands Out</a>
+        <a href="#regulatory-rag" class="hover:text-brand-400 transition-colors">CPCB 2022 Grounding</a>
+        <a href="#campus-ledger" class="hover:text-brand-400 transition-colors">VIT Bhopal Ledger</a>
+      </nav>
+
+      <div class="flex items-center gap-3">
+        <a href="#triage-studio" class="px-4 py-2 rounded-xl bg-brand-500 hover:bg-brand-400 text-black font-bold text-xs tracking-wider uppercase transition-all shadow-md shadow-brand-500/20 active:scale-95">
+          Launch Triage
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section class="relative pt-16 pb-16 overflow-hidden border-b border-slate-800">
+    <div class="absolute inset-0 bg-[radial-gradient(circle_at_25%_25%,rgba(16,185,129,0.09),transparent_50%)] pointer-events-none"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+      <div class="max-w-3xl">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono font-medium bg-brand-500/10 text-brand-300 border border-brand-500/20 mb-6">
+          <span class="w-2 h-2 rounded-full bg-brand-400 animate-ping"></span>
+          IBM Bob Multi-Agent Architecture · Granite 3.0-8B Grounded
+        </div>
+        
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight mb-6">
+          Mine silicon, not landfills. <br>
+          <span class="bg-gradient-to-r from-brand-400 via-cyanAccent-400 to-teal-200 bg-clip-text text-transparent">
+            Autonomous Hardware Triage.
+          </span>
+        </h1>
+
+        <p class="text-base sm:text-lg text-slate-300 leading-relaxed mb-8">
+          A responsible AI decision-support platform engineered for university campuses. EcoForge AI salvages functional microcontrollers, flash ICs, and power regulators from discarded institutional electronics, enforcing India's <strong>CPCB E-Waste Rules 2022 (Schedule II RoHS)</strong> to power student robotics and IoT research at <strong>VIT Bhopal</strong>.
+        </p>
+
+        <div class="flex flex-wrap gap-4 items-center">
+          <a href="#triage-studio" class="px-6 py-3 rounded-xl bg-gradient-to-r from-brand-500 to-cyanAccent-500 hover:opacity-90 text-black font-bold text-sm tracking-wide shadow-lg shadow-brand-500/20 transition-all active:scale-95 flex items-center gap-2">
+            <span>⚡</span> Test Interactive Triage Studio
+          </a>
+          <a href="#terminal-trace" class="px-6 py-3 rounded-xl glass-card hover:bg-slate-800 text-slate-200 font-semibold text-sm border border-slate-700 transition-all flex items-center gap-2 font-mono">
+            <span>>_</span> View Live Bob Agent Trace
+          </a>
+        </div>
+      </div>
+
+      <!-- Live Campus Metrics -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-12 pt-8 border-t border-slate-800/80">
+        <div class="glass-card p-4 rounded-2xl">
+          <span class="text-[11px] text-slate-400 font-mono uppercase block mb-1">Harvested Micro-ICs</span>
+          <span class="text-2xl sm:text-3xl font-extrabold text-brand-400 font-mono">1,420+</span>
+          <span class="text-xs text-slate-400 block mt-0.5">Viable silicon micro-assets</span>
+        </div>
+        <div class="glass-card p-4 rounded-2xl">
+          <span class="text-[11px] text-slate-400 font-mono uppercase block mb-1">Avoided Embodied Carbon</span>
+          <span class="text-2xl sm:text-3xl font-extrabold text-cyanAccent-400 font-mono">2,016 <span class="text-sm font-sans text-slate-400 font-normal">kg CO₂e</span></span>
+          <span class="text-xs text-slate-400 block mt-0.5">Virgin silicon displacement</span>
+        </div>
+        <div class="glass-card p-4 rounded-2xl">
+          <span class="text-[11px] text-slate-400 font-mono uppercase block mb-1">Campus Labs Supplied</span>
+          <span class="text-2xl sm:text-3xl font-extrabold text-teal-300 font-mono">48 Projects</span>
+          <span class="text-xs text-slate-400 block mt-0.5">VIT Bhopal Maker Spaces</span>
+        </div>
+        <div class="glass-card p-4 rounded-2xl">
+          <span class="text-[11px] text-slate-400 font-mono uppercase block mb-1">Statutory Safety Gate</span>
+          <span class="text-2xl sm:text-3xl font-extrabold text-emerald-300 font-mono">100%</span>
+          <span class="text-xs text-slate-400 block mt-0.5">CPCB 2022 RoHS Audited</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 01: INTERACTIVE TRIAGE STUDIO ================= -->
+  <section id="triage-studio" class="py-16 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+        <div>
+          <div class="text-xs font-mono text-brand-400 tracking-wider uppercase mb-1">Section 01 · Live Classifier Studio</div>
+          <h2 class="text-3xl font-extrabold text-white">Interactive Hardware Triage & Safety Audit</h2>
+          <p class="text-sm text-slate-400 mt-1 max-w-xl">
+            Select a common discarded campus device or enter board telemetry. The multi-agent pipeline extracts components, audits chemical hazards, and matches parts to student projects.
+          </p>
+        </div>
+        <div class="text-xs font-mono px-3 py-1.5 rounded-lg bg-slate-800/80 border border-slate-700 text-slate-300 flex items-center gap-2 self-start md:self-auto">
+          <span class="w-2 h-2 rounded-full bg-brand-400"></span>
+          Granite 3.0-8B-Instruct Diagnostics Active
+        </div>
+      </div>
+
+      <!-- Quick Chips -->
+      <div class="mb-6">
+        <span class="text-xs text-slate-400 font-mono block mb-2">⚡ Quick Select Campus Scrap Items (VIT Bhopal):</span>
+        <div class="flex flex-wrap gap-2" id="quick-chips">
+          <button onclick="loadSample(0)" class="chip-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-800/90 hover:bg-emerald-950/60 hover:border-brand-500/50 border border-slate-700 text-slate-200 transition-all flex items-center gap-1.5 active:scale-95">
+            <span>📡</span> TP-Link Wi-Fi Router (Bricked Firmware)
+          </button>
+          <button onclick="loadSample(1)" class="chip-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-800/90 hover:bg-emerald-950/60 hover:border-brand-500/50 border border-slate-700 text-slate-200 transition-all flex items-center gap-1.5 active:scale-95">
+            <span>⚡</span> Server SMPS 750W (Dell PowerEdge Rail)
+          </button>
+          <button onclick="loadSample(2)" class="chip-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-800/90 hover:bg-emerald-950/60 hover:border-brand-500/50 border border-slate-700 text-slate-200 transition-all flex items-center gap-1.5 active:scale-95">
+            <span>⚠️</span> Swollen Drone LiPo Battery (Thermal Hazard)
+          </button>
+          <button onclick="loadSample(3)" class="chip-btn px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-800/90 hover:bg-emerald-950/60 hover:border-brand-500/50 border border-slate-700 text-slate-200 transition-all flex items-center gap-1.5 active:scale-95">
+            <span>📺</span> 1998 Lab Oscilloscope (Pre-2006 Leaded Solder)
+          </button>
+        </div>
+      </div>
+
+      <!-- Dual Column Studio Layout -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Input Form (5 cols) -->
+        <div class="lg:col-span-5 glass-card rounded-2xl p-6 border border-slate-800">
+          <h3 class="text-sm font-semibold text-white mb-4 flex items-center gap-2">
+            <span class="text-brand-400 font-mono">></span> Hardware Intake Telemetry & OCR Specs
+          </h3>
+
+          <div class="space-y-4">
+            <div>
+              <label class="text-xs text-slate-400 font-mono block mb-1">Batch Tracking ID</label>
+              <input type="text" id="input-batch" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-100 focus:outline-none focus:border-brand-500" value="ECO-2026-VITB-001">
+            </div>
+
+            <div>
+              <label class="text-xs text-slate-400 font-mono block mb-1">Device Classification</label>
+              <input type="text" id="input-device" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-500" value="Decommissioned Dual-Band Wi-Fi Router (TP-Link)">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="text-xs text-slate-400 font-mono block mb-1">Mfg Year</label>
+                <input type="number" id="input-year" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-100 focus:outline-none focus:border-brand-500" value="2018">
+              </div>
+              <div>
+                <label class="text-xs text-slate-400 font-mono block mb-1">Campus Intake Lab</label>
+                <select id="input-lab" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-500">
+                  <option>Central Maker Space (AB-1)</option>
+                  <option>Robotics Society Lab (RIS)</option>
+                  <option>Embedded IoT Cell (Lab 304)</option>
+                  <option>Hostel Block 2 E-Waste Bin</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label class="text-xs text-slate-400 font-mono block mb-1">Visual Silkscreen OCR Markings</label>
+              <textarea id="input-ocr" rows="2" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-slate-200 focus:outline-none focus:border-brand-500">FCC ID: TE7A7V5 SOC: MT7628NN WINBOND 25Q128 MP1482</textarea>
+            </div>
+
+            <div>
+              <label class="text-xs text-slate-400 font-mono block mb-1">Observed Defect & Physical State</label>
+              <input type="text" id="input-defect" class="w-full bg-[#0b0f19] border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-brand-500" value="Bricked firmware; board physically intact; power supply functional">
+            </div>
+
+            <button onclick="executePipeline()" id="btn-run" class="w-full py-3 rounded-xl bg-gradient-to-r from-brand-500 to-cyanAccent-500 hover:opacity-90 text-black font-bold text-xs tracking-wider uppercase transition-all shadow-md shadow-brand-500/20 active:scale-98 flex items-center justify-center gap-2">
+              <span class="text-sm">⚡</span>
+              Run Multi-Agent Triage Pipeline
+            </button>
+          </div>
+        </div>
+
+        <!-- Output Results (7 cols) -->
+        <div class="lg:col-span-7 glass-card rounded-2xl p-6 border border-slate-800 flex flex-col justify-between">
+          
+          <div>
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+              <span class="text-xs font-mono text-slate-400 uppercase">Multi-Agent Orchestration State</span>
+              <span id="agent-status" class="text-xs font-mono font-semibold text-brand-400 flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-brand-400"></span>
+                Ready for Execution
+              </span>
+            </div>
+
+            <!-- Agent Execution Badges -->
+            <div class="grid grid-cols-4 gap-2 my-4 text-[10px] font-mono">
+              <div id="step-1" class="p-2 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300 text-center">
+                <span class="block font-bold">Agent 1</span>
+                Triage & BOM
+              </div>
+              <div id="step-2" class="p-2 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300 text-center">
+                <span class="block font-bold">Agent 2</span>
+                RoHS Safety
+              </div>
+              <div id="step-3" class="p-2 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300 text-center">
+                <span class="block font-bold">Agent 3</span>
+                Lab Match
+              </div>
+              <div id="step-4" class="p-2 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300 text-center">
+                <span class="block font-bold">Agent 4</span>
+                Credit Ledger
+              </div>
+            </div>
+
+            <!-- Safety Banner -->
+            <div id="safety-banner" class="p-4 rounded-xl mb-4 bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 flex items-start gap-3">
+              <span class="text-2xl" id="safety-icon">✅</span>
+              <div>
+                <div class="text-xs font-mono font-bold uppercase tracking-wide" id="safety-verdict-title">APPROVED FOR STUDENT HARVEST</div>
+                <div class="text-xs text-emerald-200/90 mt-0.5" id="safety-verdict-desc">RoHS-Compliant lead-free solder (SAC305) detected. Safe for student desoldering with standard ESD workbench & carbon fume absorber.</div>
+              </div>
+            </div>
+
+            <!-- Harvested Micro-Assets Table -->
+            <div class="mb-4">
+              <span class="text-xs font-mono text-slate-400 block mb-2 uppercase tracking-wider">Harvested Micro-Assets & Destination Labs:</span>
+              <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left text-xs border-collapse">
+                  <thead>
+                    <tr class="border-b border-slate-800 text-slate-400 font-mono text-[11px]">
+                      <th class="pb-2">Component</th>
+                      <th class="pb-2">Package</th>
+                      <th class="pb-2">Rating</th>
+                      <th class="pb-2">Feasibility</th>
+                      <th class="pb-2">Campus Destination</th>
+                    </tr>
+                  </thead>
+                  <tbody id="components-tbody" class="divide-y divide-slate-800/60 text-slate-200 font-sans">
+                    <!-- Populated by JS -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Match & Carbon Metrics -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+              <div class="p-3 rounded-xl bg-[#0b0f19] border border-slate-800">
+                <span class="text-[10px] text-slate-400 font-mono block uppercase">Matched Campus Demand</span>
+                <span id="matched-project" class="text-xs font-semibold text-brand-300 block mt-0.5">Smart Campus Agri-IoT Sensor Node (Agritech Club)</span>
+              </div>
+              <div class="p-3 rounded-xl bg-[#0b0f19] border border-slate-800 flex items-center justify-between">
+                <div>
+                  <span class="text-[10px] text-slate-400 font-mono block uppercase">Avoided Carbon</span>
+                  <span id="metric-carbon" class="text-sm font-bold text-cyanAccent-400 font-mono">4.26 kg CO₂e</span>
+                </div>
+                <div class="text-right">
+                  <span class="text-[10px] text-slate-400 font-mono block uppercase">Circular Credits</span>
+                  <span id="metric-credits" class="text-sm font-bold text-brand-400 font-mono">+75 Points</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bottom Actions -->
+          <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
+            <span class="text-[11px] text-slate-500 font-mono">Pydantic Type Guardrails Active</span>
+            <button onclick="toggleJsonDrawer()" class="text-xs font-mono text-cyanAccent-400 hover:underline flex items-center gap-1">
+              <span>{ }</span> Inspect Deterministic JSON Output
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- JSON Drawer -->
+      <div id="json-drawer" class="hidden mt-6 glass-card rounded-2xl p-4 border border-slate-800">
+        <div class="flex items-center justify-between pb-2 mb-2 border-b border-slate-800">
+          <span class="text-xs font-mono text-brand-400">Structured Granite 3.0-8B Schema Contract (Zero Hallucination)</span>
+          <button onclick="copyJsonOutput()" class="text-[11px] font-mono px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300">Copy JSON</button>
+        </div>
+        <pre id="json-code" class="text-xs font-mono text-brand-400 overflow-x-auto custom-scrollbar p-3 bg-black rounded-lg max-h-72"></pre>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 02: LIVE AGENT TERMINAL TRACE ================= -->
+  <section id="terminal-trace" class="py-16 border-t border-slate-800/80 bg-[#080c18]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-2xl mb-6">
+        <div class="text-xs font-mono text-cyanAccent-400 tracking-wider uppercase mb-1">Section 02 · Execution Verification</div>
+        <h2 class="text-3xl font-extrabold text-white">Live "IBM Bob" Multi-Agent Terminal Trace</h2>
+        <p class="text-sm text-slate-400 mt-1">
+          Observe how the 4 specialized agents communicate sequentially in real-time to triage scrap items, consult statutory CPCB rules via RAG, and query the campus project requisition vector store.
+        </p>
+      </div>
+
+      <!-- Terminal Window -->
+      <div class="rounded-2xl border border-slate-800 bg-[#02040a] shadow-2xl overflow-hidden font-mono text-xs">
+        <!-- Terminal Titlebar -->
+        <div class="px-4 py-3 bg-[#0d1322] border-b border-slate-800 flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
+            <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
+            <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
+            <span class="ml-2 text-slate-400 text-[11px]">ibm-bob-orchestrator · python3 ecoforge_pipeline.py --campus vit-bhopal</span>
+          </div>
+          <div class="text-[11px] text-brand-400">STATUS: ORCHESTRATION_READY</div>
+        </div>
+
+        <!-- Terminal Output Stream -->
+        <div id="terminal-content" class="p-5 text-slate-300 space-y-2 max-h-96 overflow-y-auto custom-scrollbar leading-relaxed">
+          <!-- Populated live via JS -->
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 03: WHY IT STANDS OUT (CONTRAST BANNER) ================= -->
+  <section id="contrast-section" class="py-16 border-t border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-2xl mb-10">
+        <div class="text-xs font-mono text-brand-400 tracking-wider uppercase mb-1">Section 03 · Core Differentiation</div>
+        <h2 class="text-3xl font-extrabold text-white">Why EcoForge AI Stands Apart From Simple Sorters</h2>
+        <p class="text-sm text-slate-400 mt-1">
+          Most student e-waste projects create consumer chatbots that tell users to *"put devices in the blue bin."* EcoForge solves the harder, more impactful engineering problem: **what happens next.**
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Other Projects Card -->
+        <div class="glass-card p-6 rounded-2xl border border-slate-800">
+          <div class="flex items-center gap-2 mb-3 text-slate-400 text-xs font-mono">
+            <span>🗑️</span> Conventional Sorter Paradigm (e.g., EcoSorted)
+          </div>
+          <h3 class="text-base font-bold text-slate-200 mb-3">Macro-Bin Classification (Linear Waste)</h3>
+          <ul class="text-xs text-slate-400 space-y-2.5">
+            <li class="flex items-start gap-2">
+              <span class="text-red-400">✕</span>
+              <span><strong>Unit-Level Only:</strong> Identifies a whole router as "electronic waste" and sends it to generic shredders.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-400">✕</span>
+              <span><strong>Informal Rules:</strong> Gives generic tips (tape battery terminals) without statutory legal backing.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-400">✕</span>
+              <span><strong>Linear Outcome:</strong> Items still end up in scrap yards or overseas landfills.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-red-400">✕</span>
+              <span><strong>Single Prompt:</strong> Relies on a single unstructured prompt susceptible to hallucinated outputs.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- EcoForge Card -->
+        <div class="glass-card p-6 rounded-2xl border border-brand-500/40 bg-brand-950/20 shadow-xl shadow-brand-500/5">
+          <div class="flex items-center gap-2 mb-3 text-brand-400 text-xs font-mono">
+            <span>⚡</span> The EcoForge AI Paradigm (VIT Bhopal)
+          </div>
+          <h3 class="text-base font-bold text-white mb-3">Reverse-BOM Micro-Harvesting (Circular Foundry)</h3>
+          <ul class="text-xs text-slate-300 space-y-2.5">
+            <li class="flex items-start gap-2">
+              <span class="text-brand-400">✓</span>
+              <span><strong>Silicon Micro-Assets:</strong> Salvages intact MediaTek MPUs, SPI Flash ICs, and MOSFETs for student labs.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-brand-400">✓</span>
+              <span><strong>Statutory CPCB RAG:</strong> Enforces Schedule II RoHS limits (Pb &lt; 0.1%, Cd &lt; 0.01%) and IEEE 1874 standards.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-brand-400">✓</span>
+              <span><strong>Closed-Loop Supply:</strong> Direct semantic matching to active student robotics & agritech project backlogs.</span>
+            </li>
+            <li class="flex items-start gap-2">
+              <span class="text-brand-400">✓</span>
+              <span><strong>IBM Bob Multi-Agent Architecture:</strong> 4 specialized agents with deterministic Pydantic schema validation.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 04: MULTI-AGENT ARCHITECTURE ================= -->
+  <section id="multi-agent" class="py-16 border-t border-slate-800/80 bg-[#080c18]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-2xl mb-12">
+        <div class="text-xs font-mono text-brand-400 tracking-wider uppercase mb-1">Section 04 · Architecture Details</div>
+        <h2 class="text-3xl font-extrabold text-white">The 4-Agent Orchestration Ecosystem</h2>
+        <p class="text-sm text-slate-400 mt-2">
+          Coordinated through the IBM Bob agent framework to ensure that safety screening strictly precedes any lab dispatch.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-brand-500/10 border border-brand-500/20 text-brand-400 flex items-center justify-center font-mono font-bold mb-4">
+              01
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Component Triage Agent</h3>
+            <span class="text-[11px] font-mono text-brand-400 block mb-2">Model: Granite 3.0-8B-Instruct</span>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Processes silkscreen OCR, FCC IDs, and part numbers to extract a hierarchical Reverse-BOM. Classifies chip packages (QFN, SOIC, DIP) and salvage viability.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 text-[10px] font-mono text-slate-400">
+            Output: List&lt;HarvestedComponent&gt;
+          </div>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-cyanAccent-500/10 border border-cyanAccent-500/20 text-cyanAccent-400 flex items-center justify-center font-mono font-bold mb-4">
+              02
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Chemical Safety Auditor</h3>
+            <span class="text-[11px] font-mono text-cyanAccent-400 block mb-2">Grounding: CPCB 2022 & IEEE 1874</span>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Acts as a regulatory gatekeeper. Scans for pre-2006 leaded solder (Sn60Pb40) and triggers Class-D dry sand quarantine for swollen lithium batteries.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 text-[10px] font-mono text-slate-400">
+            Output: SafetyAuditResult
+          </div>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-teal-500/10 border border-teal-500/20 text-teal-400 flex items-center justify-center font-mono font-bold mb-4">
+              03
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Campus Inventory Matcher</h3>
+            <span class="text-[11px] font-mono text-teal-400 block mb-2">Engine: ChromaDB Vector Search</span>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Matches harvested components against student project requests across robotics societies, IoT research cells, and electric vehicle clubs at VIT Bhopal.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 text-[10px] font-mono text-slate-400">
+            Output: RequisitionMatch
+          </div>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border border-slate-800 flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-mono font-bold mb-4">
+              04
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Circular Credit Dispatcher</h3>
+            <span class="text-[11px] font-mono text-emerald-400 block mb-2">Metric: Avoided Embodied Carbon</span>
+            <p class="text-xs text-slate-300 leading-relaxed">
+              Computes virgin silicon displacement emissions (~1.42 kg CO₂e per IC) and mints tokenized circular credits to depositing hostels or departments.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-800 text-[10px] font-mono text-slate-400">
+            Output: CircularCreditDispatch
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 05: CPCB 2022 GROUNDING ================= -->
+  <section id="regulatory-rag" class="py-16 border-t border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="max-w-2xl mb-10">
+        <div class="text-xs font-mono text-brand-400 tracking-wider uppercase mb-1">Section 05 · Regulatory Grounding</div>
+        <h2 class="text-3xl font-extrabold text-white">CPCB E-Waste Rules 2022 & IEEE 1874 RAG</h2>
+        <p class="text-sm text-slate-400 mt-2">
+          Statutory standards indexed inside the ChromaDB vector database:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass-card p-5 rounded-2xl border border-slate-800">
+          <div class="text-xs font-mono text-brand-400 mb-2">CPCB Schedule II (RoHS Norms)</div>
+          <h4 class="text-sm font-bold text-white mb-2">Heavy Metal Concentration Ceilings</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Lead (Pb) &lt; 0.1%, Mercury (Hg) &lt; 0.1%, Cadmium (Cd) &lt; 0.01%, Hexavalent Chromium &lt; 0.1%. Open-flame desoldering is strictly illegal under Indian law.
+          </p>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border border-slate-800">
+          <div class="text-xs font-mono text-cyanAccent-400 mb-2">IEEE Standard 1874-2018</div>
+          <h4 class="text-sm font-bold text-white mb-2">Component Reusability Screening</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Screening protocols for surface mount ICs: pad oxidation index &lt; 5%, intermetallic bonding intactness, and operating thermal delta &lt; 15°C under nominal load.
+          </p>
+        </div>
+
+        <div class="glass-card p-5 rounded-2xl border border-slate-800">
+          <div class="text-xs font-mono text-teal-400 mb-2">IS 13252 / Battery Rules 2022</div>
+          <h4 class="text-sm font-bold text-white mb-2">Lithium Fire Mitigation</h4>
+          <p class="text-xs text-slate-300 leading-relaxed">
+            Immediate quarantine protocol for lithium pouch cells showing visible gas swelling, puncture, or voltage below 2.5V/cell. Mandates dry sand containment bins.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 06: VIT BHOPAL CAMPUS LEDGER ================= -->
+  <section id="campus-ledger" class="py-16 border-t border-slate-800/80 bg-[#080c18]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="mb-8">
+        <div class="text-xs font-mono text-brand-400 tracking-wider uppercase mb-1">Section 06 · Campus Circular Registry</div>
+        <h2 class="text-3xl font-extrabold text-white">VIT Bhopal Campus Circular Ledger</h2>
+        <p class="text-sm text-slate-400 mt-1 max-w-xl">
+          Real-time audit log of institutional e-waste intake, component triage verdicts, and tokenized circular credits dispatched across university departments in Kothri Kalan.
+        </p>
+      </div>
+
+      <div class="glass-card rounded-2xl overflow-hidden border border-slate-800">
+        <div class="overflow-x-auto custom-scrollbar">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-[#0b0f19] text-slate-400 font-mono text-[11px] border-b border-slate-800">
+              <tr>
+                <th class="p-3">Batch ID</th>
+                <th class="p-3">Campus Source (VIT Bhopal)</th>
+                <th class="p-3">Device Discarded</th>
+                <th class="p-3">Safety Verdict</th>
+                <th class="p-3">Harvested Assets</th>
+                <th class="p-3">CO₂e Avoided</th>
+                <th class="p-3">Credits Minted</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-800/60 font-sans text-slate-200">
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-mono text-brand-400">ECO-VITB-901</td>
+                <td class="p-3">Computer Science Lab 304, AB-1</td>
+                <td class="p-3">8x Cisco 24-Port Switches (EOL)</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">APPROVED</span></td>
+                <td class="p-3">24x RJ45 MagJack Arrays, 8x Switching Regulators</td>
+                <td class="p-3 font-mono text-cyanAccent-400">34.1 kg</td>
+                <td class="p-3 font-mono text-brand-400">+600</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-mono text-brand-400">ECO-VITB-902</td>
+                <td class="p-3">Hostel Block 2 Collection Point</td>
+                <td class="p-3">Electric Scooter Battery (13S)</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-red-500/20 text-red-400 border border-red-500/30">REJECT_HAZARD</span></td>
+                <td class="p-3 text-slate-500">Quarantined (Cell swelling detected)</td>
+                <td class="p-3 font-mono text-slate-500">0.0 kg</td>
+                <td class="p-3 font-mono text-slate-500">0</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-mono text-brand-400">ECO-VITB-903</td>
+                <td class="p-3">Robotics Innovation Society (RIS)</td>
+                <td class="p-3">Discarded Quadcopter Drone</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">APPROVED</span></td>
+                <td class="p-3">4x BLDC Motor Drivers, MPU6050 IMU Sensor</td>
+                <td class="p-3 font-mono text-cyanAccent-400">7.1 kg</td>
+                <td class="p-3 font-mono text-brand-400">+125</td>
+              </tr>
+              <tr class="hover:bg-slate-800/30">
+                <td class="p-3 font-mono text-brand-400">ECO-VITB-904</td>
+                <td class="p-3">Formula Student Garage (EV Cell)</td>
+                <td class="p-3">Analog Signal Generator (1998)</td>
+                <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] font-semibold bg-amber-500/20 text-amber-400 border border-amber-500/30">SUPERVISED_LAB</span></td>
+                <td class="p-3">High-precision potentiometers, BNC connectors</td>
+                <td class="p-3 font-mono text-cyanAccent-400">4.3 kg</td>
+                <td class="p-3 font-mono text-brand-400">+75</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="border-t border-slate-800 py-12 bg-[#02040a] text-slate-400 text-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-6">
+      <div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-brand-500/20 border border-brand-500/30 flex items-center justify-center text-brand-400 font-bold">
+          ⚡
+        </div>
+        <div>
+          <span class="font-bold text-white block">EcoForge AI</span>
+          <span>1M1B × IBM SkillsBuild AI for Sustainability Virtual Internship</span>
+        </div>
+      </div>
+
+      <div class="text-center md:text-right">
+        <div>Developed by <strong>Aisha Ifrah</strong> · B.Tech AI & Machine Learning, VIT Bhopal</div>
+        <div class="text-slate-500 mt-0.5">Aligned with UN Sustainable Development Goal 12 · CPCB E-Waste Rules 2022 Grounded</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= CLIENT JAVASCRIPT ================= -->
+  <script>
+    const SAMPLE_CASES = [
+      {
+        batch: "ECO-2026-VITB-001",
+        device: "Decommissioned Dual-Band Wi-Fi Router (TP-Link)",
+        year: 2018,
+        lab: "Central Maker Space (AB-1)",
+        ocr: "FCC ID: TE7A7V5 SOC: MT7628NN WINBOND 25Q128 MP1482",
+        defect: "Bricked firmware; board physically intact; power supply functional",
+        verdictTitle: "APPROVED FOR STUDENT HARVEST",
+        verdictDesc: "RoHS-Compliant lead-free solder (SAC305) detected. Safe for student desoldering with standard ESD workbench & carbon fume absorber.",
+        verdictClass: "emerald", icon: "✅",
+        components: [
+          { name: "MediaTek MT7628NN SoC (Wi-Fi MPU / MIPS)", pkg: "QFN-156", rating: "580MHz, 3.3V Logic", feas: "HIGH", lab: "IoT & Embedded Systems Lab (Lab 304)" },
+          { name: "Winbond 25Q128FVSG 128Mbit SPI Flash IC", pkg: "SOIC-8", rating: "16MB, 104MHz SPI", feas: "HIGH", lab: "Microcontroller & Firmware Lab" },
+          { name: "Step-Down Buck Regulator (MP1482)", pkg: "SOIC-8", rating: "18V to 3.3V @ 2A", feas: "HIGH", lab: "Robotics Society (RIS VIT Bhopal)" }
+        ],
+        match: "Smart Campus Agri-IoT Sensor Node (Agritech Club)",
+        carbon: "4.26 kg CO₂e", credits: "+75 Points",
+        terminalLogs: [
+          "[IBM Bob Orchestrator] Initializing Multi-Agent Pipeline for Batch #ECO-2026-VITB-001 (VIT Bhopal Central Lab)...",
+          "├── [Agent 1: Component Triage] Silkscreen OCR parsed -> Reverse-BOM identified: MediaTek MT7628NN (QFN-156), Winbond 25Q128 (SOIC-8), MP1482 Buck Regulator.",
+          "├── [Agent 2: Chemical Safety Auditor] Querying RAG (CPCB 2022 Schedule II RoHS) -> Leaded alloy absent (SAC305 Lead-Free). Approved for student ESD workbench.",
+          "├── [Agent 3: Campus Inventory Matcher] Vector similarity search across 14 active VIT Bhopal project requisitions -> Matched with Agritech Club (Smart Farm Node).",
+          "└── [Agent 4: Circular Credit Dispatcher] 3 ICs diverted -> 4.26 kg CO2e avoided -> +75 Circular Credits minted to E-Waste Drop Point #1.",
+          "[Guardrail] Pydantic JSON Schema Validation: 0 Hallucinations, 100% Deterministic Contract Passed."
+        ]
+      },
+      {
+        batch: "ECO-2026-VITB-002",
+        device: "Dell PowerEdge Server SMPS (750W Hot-Plug)",
+        year: 2019,
+        lab: "Formula Student Garage (EV Cell)",
+        ocr: "P/N: D750E-S0 12V 62.5A PWM: UCC28950 OP-AMP: LM358",
+        defect: "Fan failure; internal switching rails and power FETs healthy",
+        verdictTitle: "APPROVED FOR STUDENT HARVEST",
+        verdictDesc: "RoHS-Compliant. Safe for high-power passive and active semiconductor recovery. Discharge high-voltage bulk capacitors before desoldering.",
+        verdictClass: "emerald", icon: "✅",
+        components: [
+          { name: "TI UCC28950 Phase-Shift PWM Controller", pkg: "TSSOP-24", rating: "Synchronous Rectification", feas: "HIGH", lab: "Power Electronics Lab" },
+          { name: "IRFB4110 High-Power N-Channel MOSFET", pkg: "TO-220", rating: "100V, 180A, 3.7mΩ", feas: "HIGH", lab: "Formula Student Electric Vehicle Team" }
+        ],
+        match: "Electric Vehicle Motor Controller Subsystem (VITB Formula Team)",
+        carbon: "2.84 kg CO₂e", credits: "+50 Points",
+        terminalLogs: [
+          "[IBM Bob Orchestrator] Initializing Multi-Agent Pipeline for Batch #ECO-2026-VITB-002...",
+          "├── [Agent 1: Component Triage] Silkscreen OCR parsed -> Reverse-BOM: UCC28950 PWM Controller (TSSOP-24), IRFB4110 Power FET (TO-220).",
+          "├── [Agent 2: Chemical Safety Auditor] CPCB Schedule II Audit -> Pb < 0.1%, Cd < 0.01% verified. Mandatory capacitor discharge protocol issued.",
+          "├── [Agent 3: Campus Inventory Matcher] Vector match -> Formula Student EV team requisition (Power MOSFETs for Motor Controller).",
+          "└── [Agent 4: Circular Credit Dispatcher] 2 Power ICs diverted -> 2.84 kg CO2e avoided -> +50 Circular Credits awarded.",
+          "[Guardrail] Pydantic JSON Schema Validation: Contract Validated."
+        ]
+      },
+      {
+        batch: "ECO-2026-VITB-003",
+        device: "Damaged Drone LiPo Battery Pack (3S 2200mAh)",
+        year: 2023,
+        lab: "Hostel Block 2 E-Waste Bin",
+        ocr: "3S 2200MAH 25C LITHIUM POLYMER WARNING RISK OF FIRE",
+        defect: "Severely swollen pouch; thermal puncture on cell 2; electrolyte odor",
+        verdictTitle: "REJECT TO AUTHORIZED PRO (CRITICAL HAZARD)",
+        verdictDesc: "Class-9 Dangerous Goods condition. Pouch swelling indicates internal dendritic shorting. Quarantine immediately in Class-D dry sand bin.",
+        verdictClass: "red", icon: "🚨",
+        components: [
+          { name: "Lithium Cobalt Oxide Pouch Cell 3S", pkg: "Prismatic Pouch", rating: "11.1V 2200mAh", feas: "DO_NOT_HARVEST", lab: "Hazardous Disposal Quarantine (Sand Bin)" }
+        ],
+        match: "Quarantine Bin #3 (Scheduled for Authorised Dismantler Handover)",
+        carbon: "0.00 kg CO₂e", credits: "0 Points",
+        terminalLogs: [
+          "[IBM Bob Orchestrator] Initializing Multi-Agent Pipeline for Batch #ECO-2026-VITB-003...",
+          "├── [Agent 1: Component Triage] Pouch swelling and electrolyte venting detected in visual telemetry.",
+          "├── [Agent 2: Chemical Safety Auditor] CRITICAL HAZARD TRIGGERED: IS 13252 & CPCB Battery Rules 2022 violation.",
+          "│   └── Internal dendritic short-circuit risk -> Desoldering prohibited -> Class-D dry sand bin quarantine required.",
+          "├── [Agent 3: Campus Inventory Matcher] Lab requisition halted. Dispatched to Authorised Dismantler Handover Queue.",
+          "└── [Agent 4: Circular Credit Dispatcher] Zero credits awarded. Safety violation quarantine registered.",
+          "[Guardrail] Pydantic JSON Schema: Safety Quarantine Contract Enforced."
+        ]
+      },
+      {
+        batch: "ECO-2026-VITB-004",
+        device: "1998 Analog Lab Oscilloscope Mainboard",
+        year: 2002,
+        lab: "Central Maker Space (AB-1)",
+        ocr: "MADE IN TAIWAN SOLDER ALLOY: SN60PB40 CA3140 OP-AMP",
+        defect: "Failed cathode tube; analog input amplifiers functional",
+        verdictTitle: "SUPERVISED LAB EXTRACTION REQUIRED",
+        verdictDesc: "Non-RoHS Leaded Solder (Sn60Pb40) detected. Student harvesting restricted to fume hood with certified lead vapor extraction.",
+        verdictClass: "amber", icon: "⚠️",
+        components: [
+          { name: "CA3140 BiMOS Operational Amplifier", pkg: "DIP-8", rating: "4.5MHz, MOSFET Input", feas: "MEDIUM", lab: "Electronics Workshop (Fume Hood Only)" },
+          { name: "Precision 10-Turn Wirewound Potentiometer", pkg: "Panel Mount", rating: "10kΩ 0.25% Lin", feas: "HIGH", lab: "Physics Instrumentation Lab" }
+        ],
+        match: "High-Sensitivity Bio-Signal Amplifier (Biomedical Research)",
+        carbon: "2.84 kg CO₂e", credits: "+50 Points",
+        terminalLogs: [
+          "[IBM Bob Orchestrator] Initializing Multi-Agent Pipeline for Batch #ECO-2026-VITB-004...",
+          "├── [Agent 1: Component Triage] Silkscreen OCR parsed -> CA3140 DIP-8 BiMOS Op-Amp, Precision Potentiometer.",
+          "├── [Agent 2: Chemical Safety Auditor] Pre-2006 manufacture detected -> Sn60Pb40 alloy (Leaded solder).",
+          "│   └── CPCB 2022 Schedule II compliance: Student open-bench desoldering blocked. Fume hood extraction mandatory.",
+          "├── [Agent 3: Campus Inventory Matcher] Match found: Biomedical lab instrumentation request.",
+          "└── [Agent 4: Circular Credit Dispatcher] 2.84 kg CO2e avoided -> +50 Circular Credits minted.",
+          "[Guardrail] Pydantic JSON Schema: Supervised Safety Contract Enforced."
+        ]
+      }
+    ];
+
+    let currentCase = SAMPLE_CASES[0];
+
+    function loadSample(index) {
+      currentCase = SAMPLE_CASES[index];
+      document.getElementById('input-batch').value = currentCase.batch;
+      document.getElementById('input-device').value = currentCase.device;
+      document.getElementById('input-year').value = currentCase.year;
+      document.getElementById('input-lab').value = currentCase.lab;
+      document.getElementById('input-ocr').value = currentCase.ocr;
+      document.getElementById('input-defect').value = currentCase.defect;
+      executePipeline();
+    }
+
+    function executePipeline() {
+      const statusEl = document.getElementById('agent-status');
+      statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> Orchestrating 4 Agents...`;
+
+      const steps = ['step-1', 'step-2', 'step-3', 'step-4'];
+      steps.forEach(s => {
+        const el = document.getElementById(s);
+        el.className = 'p-2 rounded-lg bg-emerald-950/60 border border-brand-500/40 text-brand-300 text-center animate-pulse font-mono';
+      });
+
+      setTimeout(() => {
+        steps.forEach(s => {
+          const el = document.getElementById(s);
+          el.className = 'p-2 rounded-lg bg-slate-800/80 border border-slate-700/60 text-slate-300 text-center font-mono';
+        });
+        statusEl.innerHTML = `<span class="w-2 h-2 rounded-full bg-brand-400"></span> Execution Complete (Deterministic)`;
+        renderResults(currentCase);
+        streamTerminal(currentCase.terminalLogs);
+      }, 500);
+    }
+
+    function renderResults(item) {
+      const banner = document.getElementById('safety-banner');
+      document.getElementById('safety-icon').innerText = item.icon;
+      document.getElementById('safety-verdict-title').innerText = item.verdictTitle;
+      document.getElementById('safety-verdict-desc').innerText = item.verdictDesc;
+
+      if (item.verdictClass === 'emerald') {
+        banner.className = 'p-4 rounded-xl mb-4 bg-emerald-950/40 border border-emerald-500/40 text-emerald-300 flex items-start gap-3';
+      } else if (item.verdictClass === 'red') {
+        banner.className = 'p-4 rounded-xl mb-4 bg-red-950/40 border border-red-500/40 text-red-300 flex items-start gap-3';
+      } else {
+        banner.className = 'p-4 rounded-xl mb-4 bg-amber-950/40 border border-amber-500/40 text-amber-300 flex items-start gap-3';
+      }
+
+      document.getElementById('components-tbody').innerHTML = item.components.map(c => `
+        <tr class="hover:bg-slate-800/40">
+          <td class="py-2.5 pr-2 font-medium text-slate-100">${c.name}</td>
+          <td class="py-2.5 pr-2 font-mono text-slate-400 text-[11px]">${c.pkg}</td>
+          <td class="py-2.5 pr-2 font-mono text-slate-400 text-[11px]">${c.rating}</td>
+          <td class="py-2.5 pr-2">
+            <span class="px-2 py-0.5 rounded text-[10px] font-mono font-semibold ${
+              c.feas === 'HIGH' ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' :
+              c.feas === 'MEDIUM' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' :
+              'bg-red-500/20 text-red-400 border border-red-500/30'
+            }">${c.feas}</span>
+          </td>
+          <td class="py-2.5 text-slate-300 text-[11px] font-medium">${c.lab}</td>
+        </tr>
+      `).join('');
+
+      document.getElementById('matched-project').innerText = item.match;
+      document.getElementById('metric-carbon').innerText = item.carbon;
+      document.getElementById('metric-credits').innerText = item.credits;
+
+      document.getElementById('json-code').innerText = JSON.stringify({
+        batch_id: item.batch,
+        device_category: item.device,
+        campus_intake_lab: item.lab,
+        manufacturing_year: item.year,
+        safety_audit: {
+          verdict: item.verdictTitle,
+          regulatory_standard: "CPCB E-Waste Rules 2022 Schedule II / IEEE 1874",
+          fume_extraction_required: item.verdictClass === "amber"
+        },
+        harvested_components: item.components,
+        circular_dispatch: {
+          matched_campus_demand: item.match,
+          avoided_carbon: item.carbon,
+          minted_credits: item.credits
+        }
+      }, null, 2);
+    }
+
+    function streamTerminal(logs) {
+      const container = document.getElementById('terminal-content');
+      container.innerHTML = '';
+      logs.forEach((line, idx) => {
+        setTimeout(() => {
+          const p = document.createElement('div');
+          if (line.includes('CRITICAL HAZARD')) {
+            p.className = 'text-red-400 font-bold';
+          } else if (line.includes('APPROVED')) {
+            p.className = 'text-emerald-300 font-bold';
+          } else if (line.includes('SUPERVISED')) {
+            p.className = 'text-amber-300 font-bold';
+          } else if (line.startsWith('├──') || line.startsWith('└──')) {
+            p.className = 'text-cyanAccent-400 pl-2';
+          } else if (line.includes('[Guardrail]')) {
+            p.className = 'text-brand-400 font-semibold';
+          } else {
+            p.className = 'text-slate-300';
+          }
+          p.innerText = line;
+          container.appendChild(p);
+          container.scrollTop = container.scrollHeight;
+        }, idx * 120);
+      });
+    }
+
+    function toggleJsonDrawer() {
+      document.getElementById('json-drawer').classList.toggle('hidden');
+    }
+
+    function copyJsonOutput() {
+      const text = document.getElementById('json-code').innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Deterministic JSON Schema copied to clipboard!");
+      });
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderResults(SAMPLE_CASES[0]);
+      streamTerminal(SAMPLE_CASES[0].terminalLogs);
+    });
+  </script>
+</body>
+</html>
