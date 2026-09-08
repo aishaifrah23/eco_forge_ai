@@ -26,6 +26,7 @@
           name: 'Multi-Layer High-Density PCB',
           category: 'Precious & Base Metallics',
           code: 'UN 3077 / CLASS 9',
+          tagPrefix: 'PCB',
           image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80',
           ocrDefault: 'SN:99201-VITB-2026 // MOD:A1657 // VAL_COMPROMISED:FALSE // Pb_CONTENT:NOMINAL',
           ppe: ['N95 HEPA particulate respirator', 'Level 5 cut-resistant micro-nitrile gloves', 'Direct-vent safety goggles'],
@@ -37,6 +38,7 @@
           name: 'Lithium-Ion Energy Storage Cell',
           category: 'Hazardous Energy Storage',
           code: 'UN 3480 / CLASS 9',
+          tagPrefix: 'BAT',
           image: 'https://images.unsplash.com/photo-1593941707882-a5bba14938c7?auto=format&fit=crop&w=800&q=80',
           ocrDefault: 'SN:BAT-VITB-902 // CHEM:LI-ION // TEMP:34C // TRACE_INTEGRITY:COMPROMISED',
           ppe: ['EN 388 / EN 374 thermal-chemical gauntlets', 'Full face shield with chin protector', 'Class-D fire blanket & insulated tools'],
@@ -48,6 +50,7 @@
           name: 'Integrated MCU Array & Strategic Magnet',
           category: 'Strategic Rare-Earth Alloys',
           code: 'NON-REGULATED',
+          tagPrefix: 'MCU',
           image: 'https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80',
           ocrDefault: 'SN:MCU-VITB-882 // TYPE:ARM9 // RESISTOR_BLOCK:OK // BOOT:FAILED',
           ppe: ['Heavy pinch-resistant mechanical gloves', 'Impact polycarbonate eye protection'],
@@ -59,6 +62,7 @@
           name: 'Cathode Ray Tube (CRT) Unit',
           category: 'Hazardous Leaded Silicate',
           code: 'UN 2811 / TOXIC 6.1',
+          tagPrefix: 'CRT',
           image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=800&q=80',
           ocrDefault: 'SN:CRT-VITB-041 // GLASS_COATING:HEAVY // RETRO_TUBE // V_VAR:HIGH',
           ppe: ['Ballistic Kevlar puncture gauntlets', 'P100 high-efficiency particulate respirator', 'Full polycarbonate blast shield'],
@@ -69,14 +73,15 @@
       };
 
       const INITIAL_LEDGER = [
-        { id: 'EF-882', ts: '2026-09-02 · 10:00', resource: 'PCB assembly, rev 4', station: 'AB1-M02', status: 'RECOVERED', badge: 'safe' },
-        { id: 'EF-881', ts: '2026-09-02 · 09:41', resource: 'Li-ion battery pack', station: 'AB1-M01', status: 'HAZARD FLAGGED', badge: 'err' },
-        { id: 'EF-880', ts: '2026-09-01 · 17:12', resource: 'CRT monitor', station: 'HOSTEL-D', status: 'PENDING PICKUP', badge: 'warn' },
-        { id: 'EF-879', ts: '2026-09-01 · 15:03', resource: 'Laptop mainboard', station: 'AB1-M03', status: 'RECOVERED', badge: 'safe' },
+        { id: 'PCB-26-88204', ts: '2026-09-02 · 10:00', resource: 'PCB assembly, rev 4', station: 'AB1-M02', status: 'RECOVERED', badge: 'safe' },
+        { id: 'BAT-26-88192', ts: '2026-09-02 · 09:41', resource: 'Li-ion battery pack', station: 'AB1-M01', status: 'HAZARD FLAGGED', badge: 'err' },
+        { id: 'CRT-26-88050', ts: '2026-09-01 · 17:12', resource: 'CRT monitor', station: 'HOSTEL-D', status: 'PENDING PICKUP', badge: 'warn' },
+        { id: 'PCB-26-87915', ts: '2026-09-01 · 15:03', resource: 'Laptop mainboard', station: 'AB1-M03', status: 'RECOVERED', badge: 'safe' },
       ];
 
       function App() {
-        const [batchId, setBatchId] = useState('24BAI10435');
+        // Electronic Hardware Tag: [DEV]-[YY]-[SERIAL] (e.g., PCB-26-10435)
+        const [batchId, setBatchId] = useState('PCB-26-10435');
         const [batchValid, setBatchValid] = useState(true);
         const [selectedCore, setSelectedCore] = useState('PCB');
         const [defectClass, setDefectClass] = useState('NOMINAL');
@@ -117,12 +122,18 @@
         const handleCoreChange = (val) => {
           setSelectedCore(val);
           setOcrText(CATALOG[val].ocrDefault);
+          // Suggest updated prefix if the current tag still uses standard format
+          if (/^[A-Z]{3}-\d{2}-\d{5}$/.test(batchId)) {
+            const serialSuffix = batchId.split('-').slice(1).join('-');
+            setBatchId(`${CATALOG[val].tagPrefix}-${serialSuffix}`);
+          }
         };
 
         const handleBatchChange = (val) => {
           const upper = val.toUpperCase();
           setBatchId(upper);
-          const ok = /^\d{2}[A-Z]{3}\d{5}$/.test(upper);
+          // Strict electronic device intake tag format: DEV-YY-NNNNN
+          const ok = /^[A-Z]{3}-\d{2}-\d{5}$/.test(upper);
           setBatchValid(ok || upper.length === 0);
         };
 
@@ -133,6 +144,8 @@
 
         const runDiagnostic = () => {
           const item = CATALOG[selectedCore];
+          const activeTag = batchId.trim() || `${item.tagPrefix}-26-${Math.floor(10000 + Math.random() * 89999)}`;
+
           let conf = 0.948;
           let cls = 'Clear pass — standard catalog match';
           let note = `Unit matches expected specification bounds for ${item.name}. No hazardous leakage indicators, no anomaly in OCR trace — cleared straight to student hardware forge.`;
@@ -154,7 +167,7 @@
               desc: 'Low-confidence detection (68.2%): pipeline halted before committing to a route.',
               route: '[PIPELINE ROUTE: STAGE_06_MANUAL_INSPECTION]'
             });
-            addLog(`INTAKE → batch ${batchId || 'UNTAGGED'} registered`, 'text-sky-400');
+            addLog(`INTAKE → device asset tag ${activeTag} registered`, 'text-sky-400');
             addLog(`PARSER → heavy oxidation zone detected on ${item.name}`, 'text-amber-400');
             addLog(`HALT → confidence 68.2% < 85% threshold — routed to human inspection`, 'text-rose-400');
           } else if (defectClass === 'TOXIC' || selectedCore === 'BATTERY') {
@@ -171,7 +184,7 @@
               desc: 'High confidence isolation. Dangerous materials sealed via the hazard-flagging layer.',
               route: '[PIPELINE ROUTE: SAFE_DECOMPOSITION]'
             });
-            addLog(`INTAKE → lithium/toxic vector confirmed on batch ${batchId || 'UNTAGGED'}`, 'text-sky-400');
+            addLog(`INTAKE → lithium/toxic vector confirmed on asset ${activeTag}`, 'text-sky-400');
             addLog(`WARN → routed to environmental hazard isolation buffer`, 'text-rose-400');
           } else {
             setStages({ 1: 'pass', 2: 'pass', 3: 'pass', 4: 'pass', 5: 'pass', 6: 'pass' });
@@ -181,13 +194,13 @@
               desc: `Asset matches standard catalog bounds at ${(conf * 100).toFixed(1)}% confidence. Pushed directly to student forge networks.`,
               route: '[PIPELINE ROUTE: EXTRACT_AND_REFORGE]'
             });
-            addLog(`QUERY → vector match passed CPCB rulesets`, 'text-sky-400');
+            addLog(`QUERY → vector match passed CPCB rulesets for ${activeTag}`, 'text-sky-400');
             addLog(`SUCCESS → asset logged to campus ledger stream`, 'text-emerald-400');
 
             const now = new Date();
             const ts = now.toISOString().slice(0, 10) + ' · ' + now.toLocaleTimeString('en-GB', { hour12: false, hour: '2-digit', minute: '2-digit' });
             setLedger(prev => [{
-              id: `EF-${triagedCount + 1}`,
+              id: activeTag,
               ts,
               resource: item.name,
               station: 'AB1-MAKERSPACE',
@@ -197,7 +210,7 @@
             setTriagedCount(c => c + 1);
           }
 
-          setTriageResult({ conf, cls, note, badgeText, badgeTone, route, core: item });
+          setTriageResult({ conf, cls, note, badgeText, badgeTone, route, core: item, activeTag });
         };
 
         const currentItem = triageResult ? triageResult.core : CATALOG[selectedCore];
@@ -206,6 +219,7 @@
         const strokeOffset = circumference - (circumference * currentConf);
 
         const filteredLedger = ledger.filter(item =>
+          item.id.toLowerCase().includes(ledgerFilter.toLowerCase()) ||
           item.resource.toLowerCase().includes(ledgerFilter.toLowerCase()) ||
           item.status.toLowerCase().includes(ledgerFilter.toLowerCase()) ||
           item.station.toLowerCase().includes(ledgerFilter.toLowerCase())
@@ -213,7 +227,7 @@
 
         return (
           <div className="flex flex-col min-h-screen">
-            {/* Nav Header */}
+            {/* Navigation Header */}
             <header className="app-header">
               <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
                 <div className="flex items-center gap-6">
@@ -265,7 +279,7 @@
                   </div>
                 </div>
 
-                {/* Live Stats */}
+                {/* Live Stats Strip */}
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-8 pt-6 border-t border-[var(--c-divider)]">
                   <div>
                     <span className="block text-[10px] text-zinc-500 font-bold uppercase mono">Verified intake accuracy</span>
@@ -301,16 +315,16 @@
                     <div className="space-y-4">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-1">
-                          <label className="block text-[10px] text-zinc-400 font-bold uppercase mono">Batch ID</label>
+                          <label className="block text-[10px] text-zinc-400 font-bold uppercase mono">Hardware Asset / Batch Tag</label>
                           <input
                             type="text"
-                            maxLength="10"
+                            maxLength="12"
                             value={batchId}
                             onChange={(e) => handleBatchChange(e.target.value)}
                             className={`mono w-full bg-[#111] border rounded p-2.5 text-xs text-white placeholder-zinc-700 focus:outline-none ${batchValid ? 'border-[var(--c-border)]' : 'border-rose-500'}`}
-                            placeholder="24BAI10000"
+                            placeholder="PCB-26-10435"
                           />
-                          <p className="text-[9px] text-zinc-500 mono">format: YYBBBNNNNN</p>
+                          <p className="text-[9px] text-zinc-500 mono">format: [DEV]-[YY]-[SERIAL] (e.g., BAT-26-88201)</p>
                         </div>
                         <div className="space-y-1">
                           <label className="block text-[10px] text-zinc-400 font-bold uppercase mono">Device Intake Core</label>
@@ -386,7 +400,9 @@
                     {triageResult && (
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 p-4 emergent-inset mb-4">
                         <div className="sm:col-span-2">
-                          <span className="mono text-[10px] text-zinc-400 uppercase">Classification Verdict</span>
+                          <div className="flex items-center gap-2 mb-1">
+                            <span className="mono text-[10px] text-zinc-400 uppercase">Tag: {triageResult.activeTag}</span>
+                          </div>
                           <p className="text-sm font-semibold text-white mt-0.5">{triageResult.cls}</p>
                           <p className="text-xs text-zinc-400 mt-1 leading-snug">{triageResult.note}</p>
                         </div>
@@ -456,7 +472,7 @@
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-6 gap-3">
                   {[
-                    { id: 1, name: 'Intake', desc: 'Batch registered with chassis OCR & station code.' },
+                    { id: 1, name: 'Intake', desc: 'Hardware asset registered with chassis OCR & station node.' },
                     { id: 2, name: 'OCR Extraction', desc: 'Serials, chemical marks, & voltage trace read.' },
                     { id: 3, name: 'Defect Class', desc: 'Vision engine evaluates wear & oxidation.' },
                     { id: 4, name: 'Hazard Flag', desc: 'Toxic leachate, Li-ion, & CRT vacuums isolated.' },
@@ -537,7 +553,7 @@
                     type="text"
                     value={ledgerFilter}
                     onChange={(e) => setLedgerFilter(e.target.value)}
-                    placeholder="Filter ledger by component or status..."
+                    placeholder="Filter ledger by tag, component or status..."
                     className="mono bg-[#111] border border-[var(--c-border)] rounded px-3 py-1.5 text-xs text-white placeholder-zinc-500 w-full sm:w-64 focus:outline-none focus:border-[#81ff89]"
                   />
                 </div>
@@ -546,7 +562,7 @@
                   <table className="w-full text-xs text-left mono">
                     <thead className="bg-[#121216] border-b border-[var(--c-divider)] text-zinc-400">
                       <tr>
-                        <th className="px-4 py-3">ENTRY</th>
+                        <th className="px-4 py-3">ASSET TAG</th>
                         <th className="px-4 py-3">TIMESTAMP</th>
                         <th className="px-4 py-3">RESOURCE</th>
                         <th className="px-4 py-3">STATION</th>
@@ -556,7 +572,7 @@
                     <tbody className="divide-y divide-[var(--c-divider)] text-zinc-300">
                       {filteredLedger.map((row, idx) => (
                         <tr key={idx} className="hover:bg-zinc-900/40 transition">
-                          <td className="px-4 py-3 text-zinc-500">#{row.id}</td>
+                          <td className="px-4 py-3 text-zinc-500">{row.id}</td>
                           <td className="px-4 py-3 text-zinc-400">{row.ts}</td>
                           <td className="px-4 py-3 font-medium text-white">{row.resource}</td>
                           <td className="px-4 py-3 text-zinc-500">{row.station}</td>
